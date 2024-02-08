@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  go:
+    container_name: excelvis_go
+    image: golang:1.22.0-alpine3.19
+    volumes:
+      - excelvis:/root
+      - ./src/src:/root/excelvis
+      - ./go-build:/root/.cache/go-build
+      - ./go-mod:/go/pkg/mod
+    command: sh -c "cd /root/excelvis && go run app/main-excelvis.go"
+    ports:
+      - 9070:9070
+    depends_on:
+      - db
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.docker.network=jpa_net_noded01"
+
+    #   - "traefik.http.routers.mav2.entrypoints=https"
+    #   - "traefik.http.routers.mav2.rule=PathPrefix(`/ma{regex:$$|/.*}`)"
+    #   - "traefik.http.services.mav2.loadbalancer.server.port=9002"
+    #   - "traefik.http.routers.mav2.service=mav2"
+    #   - "traefik.http.routers.mav2.tls=true"
+    #   - "traefik.http.routers.mav2.tls.certresolver=cert1"
+
+  mysql:
+    container_name: excelvis_mysql
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 03IZmt7eRMukIHdoZahl
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: 03IZmt7eRMukIHdoZahl
+    ports:
+      - 7070:3306
+    volumes:
+      - excelvis_mysql:/var/lib/mysql/
+      - ./db/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+
+volumes:
+  excelvis:
+  excelvis_mysql:
