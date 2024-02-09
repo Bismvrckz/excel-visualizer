@@ -5,7 +5,7 @@ services:
     container_name: excelvis_go
     image: golang:1.22.0-alpine3.19
     volumes:
-      - excelvis:/root
+      - excelvis_go:/root
       - ./src/src:/root/excelvis
       - ./go-build:/root/.cache/go-build
       - ./go-mod:/go/pkg/mod
@@ -13,7 +13,7 @@ services:
     ports:
       - 9070:9070
     depends_on:
-      - db
+      - mysql
     # labels:
     #   - "traefik.enable=true"
     #   - "traefik.docker.network=jpa_net_noded01"
@@ -39,5 +39,5 @@ services:
       - ./db/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
 
 volumes:
-  excelvis:
+  excelvis_go:
   excelvis_mysql:

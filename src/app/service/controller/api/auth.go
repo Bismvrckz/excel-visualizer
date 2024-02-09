@@ -20,7 +20,7 @@ func LoginUser(ctx echo.Context) (err error) {
 	username := ctx.FormValue("username")
 	password := ctx.FormValue("password")
 
-	serverCms, err := dbconn.CmsConnection(ctx.RealIP())
+	serverCms, err := dbconn.ExcelvisConnection()
 	if err != nil {
 		return err
 	}
